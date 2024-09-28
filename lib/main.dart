@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:restaurant_booking_app/booking_view/booking_view.dart';
+import 'package:restaurant_booking_app/menu_view/menu_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,31 +45,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Counter App'),
+    return CupertinoTabScaffold(
+      backgroundColor: CupertinoColors.white,
+      tabBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.star)),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
+        ],
       ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: CupertinoTheme.of(context).textTheme.textStyle,
-            ),
-            Center(
-              child: CupertinoButton.filled(
-                  child: Icon(CupertinoIcons.add),
-                  onPressed: () {
-                    _incrementCounter();
-                  }),
-            ),
-          ],
-        ),
-      ),
+      tabBuilder: (context, index) {
+        return CupertinoTabView(
+          builder: (BuildContext context) {
+            switch (index) {
+              case 0:
+                return MenuView();
+              case 1:
+                return BookingView();
+              default:
+                return SizedBox();
+            }
+          },
+        );
+      },
     );
   }
 }
