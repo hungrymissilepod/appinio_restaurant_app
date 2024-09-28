@@ -23,4 +23,16 @@ class FoodCubit extends Cubit<FoodState> {
       emit(FoodError('Failed to load items'));
     }
   }
+
+  void search(String value) {
+    print('search: $value');
+    emit(FoodLoading());
+    List<FoodItem> searchResults = [];
+    searchResults = items
+        .where((FoodItem item) =>
+            item.name?.toUpperCase().contains(value.toUpperCase()) == true)
+        .toList();
+
+    emit(FoodLoaded(searchResults));
+  }
 }

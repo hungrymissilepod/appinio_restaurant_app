@@ -35,12 +35,12 @@ class FoodItemTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${item.name} slkdl skdlskld ksldksldkkdlskl dks slkd lskdlsk dl',
+                      '${item.name}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      '${item.description} sdkls kdlskd lksl dksdkls kldk sldsld sdksl dksdl sdlk sld',
+                      '${item.description}',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

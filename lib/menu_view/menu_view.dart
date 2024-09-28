@@ -14,6 +14,8 @@ class MenuView extends StatefulWidget {
 }
 
 class _MenuViewState extends State<MenuView> {
+  final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -23,45 +25,64 @@ class _MenuViewState extends State<MenuView> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        backgroundColor: CupertinoColors.white,
-        navigationBar: CupertinoNavigationBar(
-          middle: Text('Menu'),
-        ),
-        child: SafeArea(
-          child: BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
-            if (state is FoodLoading) {
-              return Center(child: CupertinoActivityIndicator());
-            }
-            if (state is FoodError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Failed to load items'),
-                    CupertinoButton(
-                      color: CupertinoColors.activeBlue,
-                      child: Text('Retry'),
-                      onPressed: () {
-                        BlocProvider.of<FoodCubit>(context).fetch();
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (state is FoodLoaded) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                itemCount: state.items.length,
-                itemBuilder: (context, index) {
-                  return FoodItemTile(item: state.items[index]);
+      backgroundColor: CupertinoColors.white,
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Menu'),
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: CupertinoSearchTextField(
+                controller: controller,
+                onChanged: (String? value) {
+                  if (value != null) {
+                    BlocProvider.of<FoodCubit>(context).search(value);
+                  }
                 },
-              );
-            }
-            return SizedBox();
-          }),
-        ));
+              ),
+            ),
+            Expanded(
+              child:
+                  BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
+                if (state is FoodLoading) {
+                  return Center(child: CupertinoActivityIndicator());
+                }
+                if (state is FoodError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Failed to load items'),
+                        CupertinoButton(
+                          color: CupertinoColors.activeBlue,
+                          child: Text('Retry'),
+                          onPressed: () {
+                            BlocProvider.of<FoodCubit>(context).fetch();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (state is FoodLoaded) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: state.items.length,
+                    itemBuilder: (context, index) {
+                      return FoodItemTile(item: state.items[index]);
+                    },
+                  );
+                }
+                return SizedBox();
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
