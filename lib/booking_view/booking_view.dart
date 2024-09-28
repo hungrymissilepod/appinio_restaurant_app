@@ -6,6 +6,7 @@ class BookingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.white,
         navigationBar: CupertinoNavigationBar(
           middle: Text('Reservations'),
         ),
