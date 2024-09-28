@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_booking_app/booking_view/booking_view.dart';
+import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
 import 'package:restaurant_booking_app/firebase_options.dart';
 import 'package:restaurant_booking_app/menu_view/menu_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_booking_app/repositories/food_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,15 +21,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      theme: CupertinoThemeData(
-          textTheme: CupertinoTextThemeData(
-              textStyle: TextStyle(
-        fontSize: 14,
-        color: CupertinoColors.black,
-      ))),
-      title: 'Flutter Demo',
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return BlocProvider(
+      create: (context) => FoodCubit(FoodRepository()),
+      child: CupertinoApp(
+        theme: CupertinoThemeData(
+            textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(
+          fontSize: 14,
+          color: CupertinoColors.black,
+        ))),
+        title: 'Flutter Demo',
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
     );
   }
 }
