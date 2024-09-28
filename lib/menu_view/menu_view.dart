@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
+import 'package:restaurant_booking_app/food_item_detail_view/food_item_detail_view.dart';
 import 'package:restaurant_booking_app/menu_view/ui/food_item_tile.dart';
 
 class MenuView extends StatefulWidget {
@@ -61,7 +62,6 @@ class _MenuViewState extends State<MenuView> {
                           color: CupertinoColors.activeBlue,
                           child: Text('Retry'),
                           onPressed: () {
-                            // BlocProvider.of<FoodCubit>(context).fetch();
                             widget.foodCubit.fetch();
                           },
                         ),
@@ -76,7 +76,23 @@ class _MenuViewState extends State<MenuView> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: state.items.length,
                     itemBuilder: (context, index) {
-                      return FoodItemTile(item: state.items[index]);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: FoodItemTile(
+                          item: state.items[index],
+                          onTap: () {
+                            Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (context) {
+                                  return FoodItemDetailView(
+                                    item: state.items[index],
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     },
                   );
                 }

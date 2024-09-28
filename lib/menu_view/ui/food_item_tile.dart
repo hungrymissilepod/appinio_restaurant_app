@@ -14,7 +14,8 @@ class FoodItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onTap?.call(),
-      child: Padding(
+      child: Container(
+        color: CupertinoColors.white,
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: IntrinsicHeight(
           child: Row(
