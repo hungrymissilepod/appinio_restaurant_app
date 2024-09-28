@@ -70,7 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (BuildContext context) {
             switch (index) {
               case 0:
-                return MenuView();
+                return MenuView(
+                  foodCubit: BlocProvider.of<FoodCubit>(context),
+                );
               case 1:
                 return BookingView();
               default:
