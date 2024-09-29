@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_booking_app/models/food_item.dart';
+import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 import 'package:restaurant_booking_app/repositories/food_repository.dart';
 
 part 'food_state.dart';
@@ -11,14 +11,14 @@ class FoodCubit extends Cubit<FoodState> {
 
   final FoodRepository _repo;
 
-  List<FoodItem> items = [];
+  List<FoodItem> _items = [];
 
   Future<void> fetch() async {
     print('FoodCubit - fetch');
     emit(FoodLoading());
     try {
-      items = await _repo.fetch();
-      emit(FoodLoaded(items));
+      _items = await _repo.fetch();
+      emit(FoodLoaded(_items));
     } catch (e) {
       emit(FoodError('Failed to load items'));
     }
@@ -28,7 +28,7 @@ class FoodCubit extends Cubit<FoodState> {
     print('search: $value');
     emit(FoodLoading());
     List<FoodItem> searchResults = [];
-    searchResults = items
+    searchResults = _items
         .where((FoodItem item) =>
             item.name?.toUpperCase().contains(value.toUpperCase()) == true)
         .toList();

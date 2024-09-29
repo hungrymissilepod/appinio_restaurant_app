@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
+import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
+import 'package:restaurant_booking_app/repositories/table_repository.dart';
+import 'package:restaurant_booking_app/table_view/table_view.dart';
 
 class BookingView extends StatefulWidget {
   const BookingView({
@@ -73,7 +77,17 @@ class _BookingViewState extends State<BookingView> {
               CupertinoButton(
                 child: Text('Reserve table'),
                 color: CupertinoColors.activeBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) {
+                        return TableView(
+                            tableCubit: BlocProvider.of<TableCubit>(context),
+                            dateTime: date.toUtc().toIso8601String());
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),

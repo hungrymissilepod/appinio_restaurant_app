@@ -76,22 +76,19 @@ class _MenuViewState extends State<MenuView> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: state.items.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: FoodItemTile(
-                          item: state.items[index],
-                          onTap: () {
-                            Navigator.of(context).push(
-                              CupertinoPageRoute(
-                                builder: (context) {
-                                  return FoodItemDetailView(
-                                    item: state.items[index],
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                      return FoodItemTile(
+                        item: state.items[index],
+                        onTap: () {
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (context) {
+                                return FoodItemDetailView(
+                                  item: state.items[index],
+                                );
+                              },
+                            ),
+                          );
+                        },
                       );
                     },
                   );

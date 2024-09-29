@@ -1,4 +1,4 @@
-import 'package:restaurant_booking_app/models/food_item.dart';
+import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 abstract class FoodRepositoryProtocol {
   Future<List<FoodItem>> fetch();
@@ -7,7 +7,6 @@ abstract class FoodRepositoryProtocol {
 class FoodRepository implements FoodRepositoryProtocol {
   @override
   Future<List<FoodItem>> fetch() async {
-    await Future.delayed(Duration.zero);
     return _testItems;
   }
 }

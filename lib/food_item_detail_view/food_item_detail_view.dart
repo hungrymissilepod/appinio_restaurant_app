@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:restaurant_booking_app/models/food_item.dart';
+import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 class FoodItemDetailView extends StatefulWidget {
   const FoodItemDetailView({

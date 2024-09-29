@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'food_item.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class FoodItem extends Equatable {
   const FoodItem({
     this.id,

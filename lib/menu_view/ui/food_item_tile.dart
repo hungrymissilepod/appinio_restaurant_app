@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:restaurant_booking_app/models/food_item.dart';
+import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 class FoodItemTile extends StatelessWidget {
   const FoodItemTile({
@@ -16,6 +16,7 @@ class FoodItemTile extends StatelessWidget {
       onTap: () => onTap?.call(),
       child: Container(
         color: CupertinoColors.white,
+        margin: const EdgeInsets.symmetric(vertical: 4.0),
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: IntrinsicHeight(
           child: Row(
