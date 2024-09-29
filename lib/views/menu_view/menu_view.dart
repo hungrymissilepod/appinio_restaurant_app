@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
-import 'package:restaurant_booking_app/views/food_item_detail_view/food_item_detail_view.dart';
-import 'package:restaurant_booking_app/views/menu_view/ui/food_item_tile.dart';
+import 'package:restaurant_booking_app/views/common/common_error_state.dart';
+import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
+import 'package:restaurant_booking_app/views/menu_view/ui/menu_view_loaded_state.dart';
 
 class MenuView extends StatefulWidget {
   const MenuView({
@@ -29,7 +30,7 @@ class _MenuViewState extends State<MenuView> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.white,
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         middle: Text('Menu'),
       ),
       child: SafeArea(
@@ -50,50 +51,18 @@ class _MenuViewState extends State<MenuView> {
               child:
                   BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
                 if (state is FoodLoading) {
-                  return Center(child: CupertinoActivityIndicator());
+                  return const CommonLoadingState(label: 'Fetching menu...');
                 }
                 if (state is FoodError) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Failed to load items'),
-                        CupertinoButton(
-                          color: CupertinoColors.activeBlue,
-                          child: Text('Retry'),
-                          onPressed: () {
-                            widget.cubit.fetch();
-                          },
-                        ),
-                      ],
-                    ),
+                  return CommonErrorState(
+                    label: 'Failed to load menu',
+                    onTap: widget.cubit.fetch,
                   );
                 }
                 if (state is FoodLoaded) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    itemCount: state.items.length,
-                    itemBuilder: (context, index) {
-                      return FoodItemTile(
-                        item: state.items[index],
-                        onTap: () {
-                          Navigator.of(context).push(
-                            CupertinoPageRoute(
-                              builder: (context) {
-                                return FoodItemDetailView(
-                                  item: state.items[index],
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
+                  return MenuViewLoadedState(items: state.items);
                 }
-                return SizedBox();
+                return const SizedBox();
               }),
             ),
           ],
