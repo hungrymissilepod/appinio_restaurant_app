@@ -7,10 +7,10 @@ import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 class BookingView extends StatefulWidget {
   const BookingView({
     super.key,
-    required this.bookingCubit,
+    required this.cubit,
   });
 
-  final BookingCubit bookingCubit;
+  final BookingCubit cubit;
 
   @override
   State<BookingView> createState() => _BookingViewState();

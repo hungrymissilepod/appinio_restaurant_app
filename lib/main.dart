@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               case 1:
                 return BookingView(
-                  bookingCubit: BlocProvider.of<BookingCubit>(context),
+                  cubit: BlocProvider.of<BookingCubit>(context),
                 );
               default:
                 return SizedBox();
