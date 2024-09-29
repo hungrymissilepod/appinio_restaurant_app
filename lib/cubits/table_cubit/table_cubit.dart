@@ -43,7 +43,7 @@ class TableCubit extends Cubit<TableState> {
 
     List<TableModel>? tables = await _repo.fetch();
     if (tables == null) {
-      emit(TableError('Failed to update table: ${id}'));
+      emit(TableError('Failed to update table: $id'));
       return;
     }
 

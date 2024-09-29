@@ -1,7 +1,7 @@
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 List<FoodItem> foodStubs = [
-  FoodItem(
+  const FoodItem(
     id: '0',
     name: 'Cheesecake',
     description: 'This is a description',
@@ -9,7 +9,7 @@ List<FoodItem> foodStubs = [
     imageUrl: 'url',
     ingredients: 'a, b, c',
   ),
-  FoodItem(
+  const FoodItem(
     id: '1',
     name: 'Burger',
     description: 'This is a description',
@@ -17,7 +17,7 @@ List<FoodItem> foodStubs = [
     imageUrl: 'url',
     ingredients: 'a, b, c',
   ),
-  FoodItem(
+  const FoodItem(
     id: '2',
     name: 'Pizza',
     description: 'This is a description',
