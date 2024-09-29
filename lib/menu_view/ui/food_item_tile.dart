@@ -23,7 +23,13 @@ class FoodItemTile extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              FoodImage(imageUrl: item.imageUrl),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                    width: 96,
+                    height: 96,
+                    child: FoodImage(imageUrl: item.imageUrl)),
+              ),
               SizedBox(width: 32),
               Flexible(
                 child: Column(

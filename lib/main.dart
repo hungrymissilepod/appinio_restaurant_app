@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: CupertinoThemeData(
             textTheme: CupertinoTextThemeData(
                 textStyle: TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           color: CupertinoColors.black,
         ))),
         title: 'Flutter Demo',
@@ -73,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: CupertinoColors.white,
       tabBar: CupertinoTabBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(CupertinoIcons.star)),
-          BottomNavigationBarItem(icon: Icon(CupertinoIcons.person)),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.add)),
         ],
       ),
       tabBuilder: (context, index) {

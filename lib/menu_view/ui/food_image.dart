@@ -11,42 +11,35 @@ class FoodImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: SizedBox(
-        width: 96,
-        height: 96,
-        child: CachedNetworkImage(
-          imageUrl: imageUrl ?? '',
-          imageBuilder: (context, imageProvider) {
-            return Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          errorWidget: (context, url, error) {
-            return Container(
-              color: CupertinoColors.systemGrey2,
-              child: Center(
-                  child: Text(
-                'Failed to load image',
-                style: TextStyle(fontSize: 12),
-                textAlign: TextAlign.center,
-              )),
-            );
-          },
-          placeholder: (context, url) {
-            return Container(
-              color: CupertinoColors.systemGrey2,
-              child: CupertinoActivityIndicator(),
-            );
-          },
-        ),
-      ),
+    return CachedNetworkImage(
+      imageUrl: imageUrl ?? '',
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+      errorWidget: (context, url, error) {
+        return Container(
+          color: CupertinoColors.systemGrey2,
+          child: Center(
+              child: Text(
+            'Failed to load image',
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.center,
+          )),
+        );
+      },
+      placeholder: (context, url) {
+        return Container(
+          color: CupertinoColors.systemGrey2,
+          child: CupertinoActivityIndicator(),
+        );
+      },
     );
   }
 }
