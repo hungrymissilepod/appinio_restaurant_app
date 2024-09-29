@@ -9,6 +9,7 @@ class FoodItem extends Equatable {
     this.id,
     this.name,
     this.description,
+    this.ingredients,
     this.price,
     this.imageUrl,
   });
@@ -16,6 +17,7 @@ class FoodItem extends Equatable {
   final String? id;
   final String? name;
   final String? description;
+  final String? ingredients;
   final String? price;
   final String? imageUrl;
 
@@ -25,5 +27,6 @@ class FoodItem extends Equatable {
   Map<String, dynamic> toJson() => _$FoodItemToJson(this);
 
   @override
-  List<Object?> get props => [id, name, description, price, imageUrl];
+  List<Object?> get props =>
+      [id, name, description, ingredients, price, imageUrl];
 }

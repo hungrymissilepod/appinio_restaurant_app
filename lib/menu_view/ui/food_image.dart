@@ -17,8 +17,7 @@ class FoodImage extends StatelessWidget {
         width: 96,
         height: 96,
         child: CachedNetworkImage(
-          imageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/appinio-restaurant-booking-app.appspot.com/o/cookies.png?alt=media&token=cadd2eba-69d9-4abc-af47-be7ebce5fe09',
+          imageUrl: imageUrl ?? '',
           imageBuilder: (context, imageProvider) {
             return Container(
               decoration: BoxDecoration(

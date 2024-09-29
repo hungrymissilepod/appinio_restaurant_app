@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 abstract class FoodRepositoryProtocol {
@@ -5,26 +6,25 @@ abstract class FoodRepositoryProtocol {
 }
 
 class FoodRepository implements FoodRepositoryProtocol {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+
+  final String _foodCollection = 'food';
+
   @override
   Future<List<FoodItem>> fetch() async {
-    return _testItems;
+    List<FoodItem> items = [];
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await db.collection(_foodCollection).get();
+
+      for (var query in snapshot.docs) {
+        FoodItem item = FoodItem.fromJson(query.data());
+        items.add(item);
+      }
+    } catch (e) {
+      print('failed to fetch food: ${e}');
+    }
+
+    return items;
   }
 }
-
-List<FoodItem> _testItems = [
-  FoodItem(id: '0', name: 'Coffee', description: 'Nice coffee', price: '£2.99'),
-  FoodItem(id: '1', name: 'Pizza', description: 'Nice pizza'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-  FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
-];
