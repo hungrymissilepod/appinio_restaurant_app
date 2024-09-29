@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 
 part 'booking_state.dart';
 
@@ -14,7 +15,10 @@ class BookingCubit extends Cubit<BookingState> {
           maxDate: maxDate,
         ));
 
+  final Logger logger = Logger();
+
   void setDateTime(DateTime dt) {
+    logger.i('BookingCubit - setDateTime: $dt');
     emit(BookingInitial(
       dateTime: dt,
       minDate: state.minDate,

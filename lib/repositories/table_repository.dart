@@ -1,18 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
 import 'package:restaurant_booking_app/models/table/table_model.dart';
 
 abstract class TableRepositoryProtocol {
-  Future<List<TableModel>> fetch();
+  Future<List<TableModel>?> fetch();
   Future<bool> updateTable(TableModel table);
 }
 
 class TableRepository implements TableRepositoryProtocol {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  final Logger logger = Logger();
+
   final String _tableCollection = 'tables';
 
   @override
-  Future<List<TableModel>> fetch() async {
+  Future<List<TableModel>?> fetch() async {
+    logger.i('TableRepository - fetch');
     List<TableModel> tables = [];
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot =
@@ -25,19 +29,21 @@ class TableRepository implements TableRepositoryProtocol {
 
       /// Order tables by [id]
       tables.sort((TableModel a, TableModel b) => a.id.compareTo(b.id));
+      return tables;
     } catch (e) {
-      print('failed to fetch tables: $e');
+      logger.e('TableRepository - failed to fetch tables: $e');
     }
-    return tables;
+    return null;
   }
 
   @override
   Future<bool> updateTable(TableModel table) async {
+    logger.i('TableRepository - updateTable: ${table.props}');
     try {
       final String? docId = await _getDocumentIdForTable(table.id);
       await db.collection(_tableCollection).doc(docId).set(table.toJson());
     } catch (e) {
-      print('failed to reserve table: $e');
+      logger.e('TableRepository - failed to update table: $e');
     }
     return false;
   }

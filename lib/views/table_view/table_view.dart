@@ -36,7 +36,10 @@ class _TableViewState extends State<TableView> {
       builder: (context) {
         return CupertinoAlertDialog(
           title: const Text('Enter name for booking'),
-          content: CupertinoTextField(controller: controller),
+          content: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: CupertinoTextField(controller: controller),
+          ),
           actions: [
             CupertinoDialogAction(
               child: const Text('Cancel'),
