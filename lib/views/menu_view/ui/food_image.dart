@@ -26,7 +26,7 @@ class FoodImage extends StatelessWidget {
       errorWidget: (context, url, error) {
         return Container(
           color: CupertinoColors.systemGrey2,
-          child: Center(
+          child: const Center(
               child: Text(
             'Failed to load image',
             style: TextStyle(fontSize: 12),
@@ -37,7 +37,7 @@ class FoodImage extends StatelessWidget {
       placeholder: (context, url) {
         return Container(
           color: CupertinoColors.systemGrey2,
-          child: CupertinoActivityIndicator(),
+          child: const CupertinoActivityIndicator(),
         );
       },
     );

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_booking_app/views/menu_view/ui/food_image.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
@@ -19,7 +18,7 @@ class FoodItemTile extends StatelessWidget {
       child: Container(
         color: CupertinoColors.white,
         margin: const EdgeInsets.symmetric(vertical: 4.0),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: IntrinsicHeight(
           child: Row(
             children: [
@@ -30,7 +29,7 @@ class FoodItemTile extends StatelessWidget {
                     height: 96,
                     child: FoodImage(imageUrl: item.imageUrl)),
               ),
-              SizedBox(width: 32),
+              const SizedBox(width: 32),
               Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,6 +39,13 @@ class FoodItemTile extends StatelessWidget {
                       '${item.name}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: CupertinoTheme.of(context)
+                          .textTheme
+                          .textStyle
+                          .copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     Text(
                       '${item.description}',
