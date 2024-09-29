@@ -17,13 +17,7 @@ class FoodItemDetailView extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.white,
       navigationBar: CupertinoNavigationBar(
-        middle: Text(
-          '${item.name}',
-          style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-        ),
+        middle: Text('${item.name}'),
       ),
       child: SafeArea(
         child: SingleChildScrollView(
@@ -37,7 +31,7 @@ class FoodItemDetailView extends StatelessWidget {
                 child: FoodImage(imageUrl: item.imageUrl),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -73,7 +67,7 @@ class FoodItemDetailView extends StatelessWidget {
                       title: 'Description',
                       body: item.description ?? '',
                     ),
-                    const CupertinoDivider(),
+                    const CommonDivider(),
                     FoodInfoSection(
                       title: 'Ingredients',
                       body: item.ingredients ?? '',

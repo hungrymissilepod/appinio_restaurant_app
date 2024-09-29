@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
+import 'package:restaurant_booking_app/views/booking_view/ui/booking_date_time_row.dart';
 import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 
-class BookingView extends StatefulWidget {
+class BookingView extends StatelessWidget {
   const BookingView({
     super.key,
     required this.cubit,
@@ -12,21 +14,8 @@ class BookingView extends StatefulWidget {
 
   final BookingCubit cubit;
 
-  @override
-  State<BookingView> createState() => _BookingViewState();
-}
-
-class _BookingViewState extends State<BookingView> {
-  DateTime date = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0);
-  DateTime minDate = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(Duration(hours: -1));
-  DateTime maxDate = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(Duration(days: 7));
-
-  void _showDialog() {
+  void _showDialog(
+      {required BuildContext context, required CupertinoDatePickerMode mode}) {
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -41,16 +30,14 @@ class _BookingViewState extends State<BookingView> {
             top: false,
             child: CupertinoDatePicker(
               minuteInterval: 60,
-              minimumDate: minDate,
-              maximumDate: maxDate,
-              initialDateTime: date,
-              mode: CupertinoDatePickerMode.dateAndTime,
+              minimumDate: cubit.state.minDate,
+              maximumDate: cubit.state.maxDate,
+              initialDateTime: cubit.state.dateTime,
+              mode: mode,
               use24hFormat: true,
               showDayOfWeek: true,
               onDateTimeChanged: (DateTime value) {
-                setState(() {
-                  date = value;
-                });
+                cubit.setDateTime(value);
               },
             ),
           ),
@@ -59,44 +46,97 @@ class _BookingViewState extends State<BookingView> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.white,
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Reservations'),
-      ),
-      child: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Select date'),
-              CupertinoButton(
-                child: Text('Date: ${date.toString()}'),
-                onPressed: () {
-                  _showDialog();
-                },
-              ),
-              CupertinoButton(
-                child: Text('Reserve table'),
-                color: CupertinoColors.activeBlue,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(
-                      builder: (context) {
-                        return TableView(
-                            tableCubit: BlocProvider.of<TableCubit>(context),
-                            dateTime: date.toUtc().toIso8601String());
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+  String formatDate(DateTime dt) {
+    return DateFormat('E dd MMMM yyyy').format(dt);
+  }
+
+  String formatTime(DateTime dt) {
+    return DateFormat('HH:mm').format(dt);
+  }
+
+  void _navigateToTableView(BuildContext context) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) {
+          return TableView(
+            tableCubit: BlocProvider.of<TableCubit>(context),
+            dateTime: cubit.state.dateTime.toUtc().toIso8601String(),
+          );
+        },
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<BookingCubit, BookingState>(builder: (context, state) {
+      return CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.white,
+        navigationBar: const CupertinoNavigationBar(
+          middle: Text('Reservations'),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Select date and time',
+                    style:
+                        CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                  ),
+                  const SizedBox(height: 12),
+                  BookingDateTimeRow(
+                    title: 'Date',
+                    body: formatDate(state.dateTime),
+                    onTap: () {
+                      _showDialog(
+                        context: context,
+                        mode: CupertinoDatePickerMode.date,
+                      );
+                    },
+                  ),
+                  BookingDateTimeRow(
+                    title: 'Time:',
+                    body: formatTime(state.dateTime),
+                    onTap: () {
+                      _showDialog(
+                        context: context,
+                        mode: CupertinoDatePickerMode.time,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: CupertinoButton(
+                      child: Text(
+                        'Reserve table',
+                        style: CupertinoTheme.of(context)
+                            .textTheme
+                            .textStyle
+                            .copyWith(
+                              fontSize: 18,
+                              color: CupertinoColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      color: CupertinoColors.activeBlue,
+                      onPressed: () {
+                        _navigateToTableView(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

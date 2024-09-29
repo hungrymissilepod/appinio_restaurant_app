@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class CupertinoDivider extends StatelessWidget {
-  const CupertinoDivider({super.key});
+class CommonDivider extends StatelessWidget {
+  const CommonDivider({super.key});
 
   @override
   Widget build(BuildContext context) {

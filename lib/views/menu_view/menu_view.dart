@@ -51,7 +51,9 @@ class _MenuViewState extends State<MenuView> {
               child:
                   BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
                 if (state is FoodLoading) {
-                  return const CommonLoadingState(label: 'Fetching menu...');
+                  return const CommonLoadingState(
+                    label: 'Loading menu...',
+                  );
                 }
                 if (state is FoodError) {
                   return CommonErrorState(

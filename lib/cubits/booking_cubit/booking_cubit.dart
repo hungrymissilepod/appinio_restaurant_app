@@ -1,11 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_booking_app/repositories/booking_repository.dart';
 
 part 'booking_state.dart';
 
 class BookingCubit extends Cubit<BookingState> {
-  BookingCubit(this._repo) : super(BookingInitial());
+  BookingCubit({
+    required DateTime datetime,
+    required DateTime minDate,
+    required DateTime maxDate,
+  }) : super(BookingInitial(
+          dateTime: datetime,
+          minDate: minDate,
+          maxDate: maxDate,
+        ));
 
-  final BookingRepository _repo;
+  void setDateTime(DateTime dt) {
+    emit(BookingInitial(
+      dateTime: dt,
+      minDate: state.minDate,
+      maxDate: state.maxDate,
+    ));
+  }
 }
