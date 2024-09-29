@@ -23,9 +23,9 @@ class TableAvailabilityChip extends StatelessWidget {
       case TableStatus.available:
         return CupertinoColors.activeGreen.withOpacity(0.8);
       case TableStatus.reservedByMe:
-        return CupertinoColors.destructiveRed.withOpacity(0.8);
+        return CupertinoColors.inactiveGray.withOpacity(0.8);
       case TableStatus.reservedByOther:
-        return CupertinoColors.destructiveRed.withOpacity(0.8);
+        return CupertinoColors.inactiveGray.withOpacity(0.8);
     }
   }
 
