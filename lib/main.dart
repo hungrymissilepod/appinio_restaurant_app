@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_booking_app/booking_view/booking_view.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
 import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
@@ -36,11 +37,13 @@ class MyApp extends StatelessWidget {
       ],
       child: CupertinoApp(
         theme: CupertinoThemeData(
-            textTheme: CupertinoTextThemeData(
-                textStyle: TextStyle(
-          fontSize: 16,
-          color: CupertinoColors.black,
-        ))),
+          textTheme: CupertinoTextThemeData(
+            textStyle: TextStyle(
+              fontSize: 16,
+              color: CupertinoColors.black,
+            ),
+          ),
+        ),
         title: 'Flutter Demo',
         home: const MyHomePage(),
       ),
@@ -62,8 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: CupertinoColors.white,
       tabBar: CupertinoTabBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
-          BottomNavigationBarItem(icon: Icon(CupertinoIcons.add)),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.burger),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.utensils),
+            label: 'Reservations',
+          ),
         ],
       ),
       tabBuilder: (context, index) {
@@ -72,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             switch (index) {
               case 0:
                 return MenuView(
-                  foodCubit: BlocProvider.of<FoodCubit>(context),
+                  cubit: BlocProvider.of<FoodCubit>(context),
                 );
               case 1:
                 return BookingView(

@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   cached_network_image: ^3.4.1
   cloud_firestore: ^5.1.0
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

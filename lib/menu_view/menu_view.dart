@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
 import 'package:restaurant_booking_app/food_item_detail_view/food_item_detail_view.dart';
@@ -8,10 +7,10 @@ import 'package:restaurant_booking_app/menu_view/ui/food_item_tile.dart';
 class MenuView extends StatefulWidget {
   const MenuView({
     super.key,
-    required this.foodCubit,
+    required this.cubit,
   });
 
-  final FoodCubit foodCubit;
+  final FoodCubit cubit;
 
   @override
   State<MenuView> createState() => _MenuViewState();
@@ -23,7 +22,7 @@ class _MenuViewState extends State<MenuView> {
   @override
   void initState() {
     super.initState();
-    widget.foodCubit.fetch();
+    widget.cubit.fetch();
   }
 
   @override
@@ -42,7 +41,7 @@ class _MenuViewState extends State<MenuView> {
                 controller: controller,
                 onChanged: (String? value) {
                   if (value != null) {
-                    widget.foodCubit.search(value);
+                    widget.cubit.search(value);
                   }
                 },
               ),
@@ -63,7 +62,7 @@ class _MenuViewState extends State<MenuView> {
                           color: CupertinoColors.activeBlue,
                           child: Text('Retry'),
                           onPressed: () {
-                            widget.foodCubit.fetch();
+                            widget.cubit.fetch();
                           },
                         ),
                       ],
