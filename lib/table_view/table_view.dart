@@ -68,8 +68,7 @@ class _TableViewState extends State<TableView> {
                 ],
               ),
             );
-          }
-          if (state is TableLoaded) {
+          } else {
             return ListView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(
@@ -98,57 +97,70 @@ class _TableViewState extends State<TableView> {
                             ],
                           ),
                         ),
-                        CupertinoButton(
-                          onPressed: status == TableStatus.reservedByOther
-                              ? null
-                              : () {
-                                  if (status == TableStatus.reservedByMe) {
-                                    widget.tableCubit.cancelTable(
-                                        table.id ?? '', widget.dateTime);
-                                  } else if (status == TableStatus.available) {
-                                    showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return CupertinoAlertDialog(
-                                          title: Text('Enter name for booking'),
-                                          content: CupertinoTextField(
-                                              controller: controller),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              child: Text('Cancel'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            CupertinoDialogAction(
-                                              child: Text('Book'),
-                                              onPressed: () async {
-                                                if (controller.text.isEmpty) {
-                                                  return;
-                                                }
-                                                await widget.tableCubit
-                                                    .bookTable(
-                                                        state.tables[index]
-                                                                .id ??
-                                                            '',
-                                                        widget.dateTime,
-                                                        controller.text);
-                                                controller.clear();
-                                                if (mounted) {
-                                                  Navigator.of(context).pop();
-                                                }
-                                              },
-                                            ),
-                                          ],
+                        BlocBuilder<TableCubit, TableState>(
+                          builder: (context, state) {
+                            if (state is TableUpdating) {
+                              if (state.id == table.id) {
+                                return CupertinoActivityIndicator();
+                              }
+                            }
+                            return CupertinoButton(
+                              onPressed: status == TableStatus.reservedByOther
+                                  ? null
+                                  : () {
+                                      if (status == TableStatus.reservedByMe) {
+                                        widget.tableCubit.cancelTable(
+                                            table.id ?? '', widget.dateTime);
+                                      } else if (status ==
+                                          TableStatus.available) {
+                                        showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CupertinoAlertDialog(
+                                              title: Text(
+                                                  'Enter name for booking'),
+                                              content: CupertinoTextField(
+                                                  controller: controller),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                CupertinoDialogAction(
+                                                  child: Text('Book'),
+                                                  onPressed: () async {
+                                                    if (controller
+                                                        .text.isEmpty) {
+                                                      return;
+                                                    }
+                                                    await widget.tableCubit
+                                                        .bookTable(
+                                                            state.tables[index]
+                                                                    .id ??
+                                                                '',
+                                                            widget.dateTime,
+                                                            controller.text);
+                                                    controller.clear();
+                                                    if (mounted) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
-                                      },
-                                    );
-                                    return;
-                                  }
-                                },
-                          child: Text(status == TableStatus.reservedByMe
-                              ? 'Cancel'
-                              : 'Reserve'),
+                                        return;
+                                      }
+                                    },
+                              child: Text(status == TableStatus.reservedByMe
+                                  ? 'Cancel'
+                                  : 'Reserve'),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -157,7 +169,6 @@ class _TableViewState extends State<TableView> {
               },
             );
           }
-          return SizedBox();
         }),
       ),
     );

@@ -1,34 +1,44 @@
 part of 'table_cubit.dart';
 
 abstract class TableState extends Equatable {
-  const TableState();
+  const TableState(this.tables);
+
+  final List<TableModel> tables;
 }
 
 class TableInitial extends TableState {
-  const TableInitial();
+  TableInitial() : super([]);
 
   @override
   List<Object?> get props => [];
 }
 
 class TableLoading extends TableState {
-  const TableLoading();
+  TableLoading() : super([]);
 
   @override
   List<Object?> get props => [];
 }
 
-class TableLoaded extends TableState {
-  const TableLoaded(this.tables);
+class TableUpdating extends TableState {
+  const TableUpdating(this.id, {required List<TableModel> tables})
+      : super(tables);
 
-  final List<TableModel> tables;
+  final String? id;
+
+  @override
+  List<Object?> get props => [id, tables];
+}
+
+class TableLoaded extends TableState {
+  const TableLoaded({required List<TableModel> tables}) : super(tables);
 
   @override
   List<Object?> get props => [tables];
 }
 
 class TableError extends TableState {
-  const TableError(this.message);
+  TableError(this.message) : super([]);
 
   final String message;
 

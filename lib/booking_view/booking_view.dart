@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
-import 'package:restaurant_booking_app/repositories/table_repository.dart';
 import 'package:restaurant_booking_app/table_view/table_view.dart';
 
 class BookingView extends StatefulWidget {
@@ -18,9 +17,14 @@ class BookingView extends StatefulWidget {
 }
 
 class _BookingViewState extends State<BookingView> {
-  DateTime date = DateTime.now().copyWith(minute: 0);
-  DateTime minDate = DateTime.now().add(Duration(hours: -1));
-  DateTime maxDate = DateTime.now().add(Duration(days: 7));
+  DateTime date = DateTime.now()
+      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0);
+  DateTime minDate = DateTime.now()
+      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
+      .add(Duration(hours: -1));
+  DateTime maxDate = DateTime.now()
+      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
+      .add(Duration(days: 7));
 
   void _showDialog() {
     showCupertinoModalPopup(

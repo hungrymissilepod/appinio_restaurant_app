@@ -22,15 +22,23 @@ class TableCubit extends Cubit<TableState> {
     emit(TableLoading());
     try {
       _tables = await _repo.fetch();
-      emit(TableLoaded(_tables));
+      emit(TableLoaded(tables: _tables));
     } catch (e) {
       emit(TableError('Failed to fetch tables'));
     }
   }
 
-  Future<void> bookTable(String id, String dt, String user) async {
-    emit(TableLoading());
+  Future<void> updateTable(String id) async {
+    emit(TableUpdating(id, tables: _tables));
+    try {
+      _tables = await _repo.fetch();
+      emit(TableLoaded(tables: _tables));
+    } catch (e) {
+      emit(TableError('Failed to update table: ${id}'));
+    }
+  }
 
+  Future<void> bookTable(String id, String dt, String user) async {
     int index = _tables.indexWhere((TableModel table) => table.id == id);
     if (index != -1) {
       if (_tables[index]
@@ -41,12 +49,11 @@ class TableCubit extends Cubit<TableState> {
       }
     }
 
-    emit(TableLoaded(_tables));
+    await _repo.updateTable(_tables[index]);
+    await updateTable(_tables[index].id ?? '');
   }
 
   Future<void> cancelTable(String id, String dt) async {
-    emit(TableLoading());
-
     int index = _tables.indexWhere((TableModel table) => table.id == id);
     if (index != -1) {
       _tables[index]
@@ -54,7 +61,8 @@ class TableCubit extends Cubit<TableState> {
           ?.removeWhere((Reservation r) => r.dateTime == dt);
     }
 
-    emit(TableLoaded(_tables));
+    await _repo.updateTable(_tables[index]);
+    await updateTable(_tables[index].id ?? '');
   }
 
   TableStatus tableStatus(TableModel table, String dt) {
