@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:restaurant_booking_app/menu_view/ui/food_image.dart';
+import 'package:restaurant_booking_app/views/menu_view/ui/food_image.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 class FoodItemTile extends StatelessWidget {

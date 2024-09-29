@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
-import 'package:restaurant_booking_app/table_view/table_view.dart';
+import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 
 class BookingView extends StatefulWidget {
   const BookingView({
