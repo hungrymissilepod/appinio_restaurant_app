@@ -9,12 +9,12 @@ part 'table_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class TableModel extends Equatable {
   TableModel({
-    this.id,
+    required this.id,
     this.chairs,
     List<Reservation>? reservations,
   }) : reservations = reservations ?? <Reservation>[];
 
-  final int? id;
+  final int id;
   final int? chairs;
   final List<Reservation>? reservations;
 

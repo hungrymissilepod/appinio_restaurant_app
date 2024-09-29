@@ -22,10 +22,12 @@ class TableRepository implements TableRepositoryProtocol {
         TableModel table = TableModel.fromJson(query.data());
         tables.add(table);
       }
+
+      /// Order tables by [id]
+      tables.sort((TableModel a, TableModel b) => a.id.compareTo(b.id));
     } catch (e) {
       print('failed to fetch tables: $e');
     }
-
     return tables;
   }
 

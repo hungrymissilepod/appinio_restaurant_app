@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 import 'package:restaurant_booking_app/repositories/food_repository.dart';
