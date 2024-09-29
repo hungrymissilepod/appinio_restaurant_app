@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:restaurant_booking_app/menu_view/ui/food_image.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 class FoodItemTile extends StatelessWidget {
@@ -21,15 +23,7 @@ class FoodItemTile extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/pizza.png',
-                  width: 96,
-                  height: 96,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              FoodImage(imageUrl: item.imageUrl),
               SizedBox(width: 32),
               Flexible(
                 child: Column(
@@ -47,7 +41,7 @@ class FoodItemTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      '£price',
+                      '${item.price}',
                     ),
                   ],
                 ),

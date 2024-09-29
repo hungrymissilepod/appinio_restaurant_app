@@ -12,7 +12,7 @@ class FoodRepository implements FoodRepositoryProtocol {
 }
 
 List<FoodItem> _testItems = [
-  FoodItem(id: '0', name: 'Coffee', description: 'Nice coffee'),
+  FoodItem(id: '0', name: 'Coffee', description: 'Nice coffee', price: '£2.99'),
   FoodItem(id: '1', name: 'Pizza', description: 'Nice pizza'),
   FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),
   FoodItem(id: '2', name: 'Burger', description: 'Nice burger'),

@@ -9,11 +9,15 @@ class FoodItem extends Equatable {
     this.id,
     this.name,
     this.description,
+    this.price,
+    this.imageUrl,
   });
 
   final String? id;
   final String? name;
   final String? description;
+  final String? price;
+  final String? imageUrl;
 
   factory FoodItem.fromJson(Map<String, dynamic> json) =>
       _$FoodItemFromJson(json);
@@ -21,5 +25,5 @@ class FoodItem extends Equatable {
   Map<String, dynamic> toJson() => _$FoodItemToJson(this);
 
   @override
-  List<Object?> get props => [id, name, description];
+  List<Object?> get props => [id, name, description, price, imageUrl];
 }

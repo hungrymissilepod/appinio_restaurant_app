@@ -18,5 +18,5 @@ Map<String, dynamic> _$TableModelToJson(TableModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'chairs': instance.chairs,
-      'reservations': instance.reservations,
+      'reservations': instance.reservations?.map((e) => e.toJson()).toList(),
     };
