@@ -5,15 +5,16 @@ import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
 import 'package:restaurant_booking_app/models/table/table_model.dart';
 import 'package:restaurant_booking_app/views/common/common_error_state.dart';
 import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
+import 'package:restaurant_booking_app/views/table_view/ui/table_tile.dart';
 
 class TableView extends StatefulWidget {
   const TableView({
     super.key,
-    required this.tableCubit,
+    required this.cubit,
     required this.dateTime,
   });
 
-  final TableCubit tableCubit;
+  final TableCubit cubit;
   final String dateTime;
 
   @override
@@ -25,135 +26,88 @@ class _TableViewState extends State<TableView> {
   @override
   void initState() {
     super.initState();
-    widget.tableCubit.fetch();
+    widget.cubit.fetch();
   }
 
-  String availablility(TableStatus status) {
-    switch (status) {
-      case TableStatus.available:
-        return 'Available';
-      case TableStatus.reservedByMe:
-        return 'Reserved by me';
-      case TableStatus.reservedByOther:
-        return 'Reserved';
-    }
+  void _showBookingDialog(
+      {required BuildContext context, required TableModel table}) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Enter name for booking'),
+          content: CupertinoTextField(controller: controller),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: const Text('Book'),
+              onPressed: () async {
+                if (controller.text.isEmpty) {
+                  return;
+                }
+                await widget.cubit.bookTable(
+                    table.id ?? '', widget.dateTime, controller.text);
+                controller.clear();
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.white,
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         middle: Text('Pick Table'),
       ),
       child: SafeArea(
         child: BlocBuilder<TableCubit, TableState>(builder: (context, state) {
           if (state is TableLoading) {
-            return CommonLoadingState(
+            return const CommonLoadingState(
               label: 'Loading tables...',
             );
           }
           if (state is TableError) {
             return CommonErrorState(
               label: 'Failed to load tables',
-              onTap: widget.tableCubit.fetch,
-            );
-          } else {
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              itemCount: state.tables.length,
-              itemBuilder: (context, index) {
-                final TableModel table = state.tables[index];
-                TableStatus status =
-                    widget.tableCubit.tableStatus(table, widget.dateTime);
-                return Container(
-                  color: CupertinoColors.white,
-                  margin: const EdgeInsets.symmetric(vertical: 4.0),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Table: ${table.id}'),
-                            Text('Chairs: ${table.chairs}'),
-                            Text(availablility(status)),
-                          ],
-                        ),
-                      ),
-                      BlocBuilder<TableCubit, TableState>(
-                        builder: (context, state) {
-                          if (state is TableUpdating) {
-                            if (state.id == table.id) {
-                              return CupertinoActivityIndicator();
-                            }
-                          }
-                          return CupertinoButton(
-                            onPressed: status == TableStatus.reservedByOther
-                                ? null
-                                : () {
-                                    if (status == TableStatus.reservedByMe) {
-                                      widget.tableCubit.cancelTable(
-                                          table.id ?? '', widget.dateTime);
-                                    } else if (status ==
-                                        TableStatus.available) {
-                                      showCupertinoDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return CupertinoAlertDialog(
-                                            title:
-                                                Text('Enter name for booking'),
-                                            content: CupertinoTextField(
-                                                controller: controller),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                child: Text('Cancel'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              CupertinoDialogAction(
-                                                child: Text('Book'),
-                                                onPressed: () async {
-                                                  if (controller.text.isEmpty) {
-                                                    return;
-                                                  }
-                                                  await widget.tableCubit
-                                                      .bookTable(
-                                                          state.tables[index]
-                                                                  .id ??
-                                                              '',
-                                                          widget.dateTime,
-                                                          controller.text);
-                                                  controller.clear();
-                                                  if (mounted) {
-                                                    Navigator.of(context).pop();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                      return;
-                                    }
-                                  },
-                            child: Text(status == TableStatus.reservedByMe
-                                ? 'Cancel'
-                                : 'Reserve'),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
+              onTap: widget.cubit.fetch,
             );
           }
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            itemCount: state.tables.length,
+            itemBuilder: (context, index) {
+              final TableModel table = state.tables[index];
+              TableStatus status =
+                  widget.cubit.tableStatus(table, widget.dateTime);
+              return TableTile(
+                table: table,
+                status: status,
+                cancelTable: () {
+                  widget.cubit.cancelTable(table.id ?? '', widget.dateTime);
+                },
+                reserveTable: () {
+                  _showBookingDialog(
+                    context: context,
+                    table: state.tables[index],
+                  );
+                },
+              );
+            },
+          );
         }),
       ),
     );

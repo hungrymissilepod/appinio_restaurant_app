@@ -15,8 +15,13 @@ class CommonLoadingState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CupertinoActivityIndicator(),
-          const SizedBox(height: 8),
-          Text(label ?? ''),
+          if (label != null)
+            Column(
+              children: [
+                const SizedBox(height: 8),
+                Text(label ?? ''),
+              ],
+            ),
         ],
       ),
     );

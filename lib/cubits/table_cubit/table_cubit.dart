@@ -6,6 +6,9 @@ import 'package:restaurant_booking_app/repositories/table_repository.dart';
 
 part 'table_state.dart';
 
+/// This is the username that we are comparing against when checking if the
+/// current user has reserved a table.
+/// In a real application we would instead check against the logged in user's uid
 const kCurrentUsername = 'Jake';
 
 enum TableStatus { available, reservedByMe, reservedByOther }

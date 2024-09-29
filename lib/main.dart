@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
   /// Minimum booking time (cannot book in the past)
   final DateTime minDate = DateTime.now()
       .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(Duration(hours: -1));
+      .add(const Duration(hours: -1));
 
   /// Maximum booking time (one week in future)
   final DateTime maxDate = DateTime.now()
       .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(Duration(days: 7));
+      .add(const Duration(days: 7));
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<TableCubit>(
             create: (BuildContext context) => TableCubit(TableRepository())),
       ],
-      child: CupertinoApp(
+      child: const CupertinoApp(
         theme: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
             textStyle: TextStyle(
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         title: 'Flutter Demo',
-        home: const MyHomePage(),
+        home: MyHomePage(),
       ),
     );
   }
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return CupertinoTabScaffold(
       backgroundColor: CupertinoColors.white,
       tabBar: CupertinoTabBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.burger),
             label: 'Menu',
@@ -93,22 +93,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       tabBuilder: (context, index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            switch (index) {
-              case 0:
-                return MenuView(
-                  cubit: BlocProvider.of<FoodCubit>(context),
-                );
-              case 1:
-                return BookingView(
-                  cubit: BlocProvider.of<BookingCubit>(context),
-                );
-              default:
-                return SizedBox();
-            }
-          },
-        );
+        switch (index) {
+          case 0:
+            return CupertinoTabView(
+              builder: (context) => MenuView(
+                cubit: BlocProvider.of<FoodCubit>(context),
+              ),
+            );
+          case 1:
+            return CupertinoTabView(
+              builder: (context) => BookingView(
+                cubit: BlocProvider.of<BookingCubit>(context),
+              ),
+            );
+          default:
+            return const SizedBox();
+        }
       },
     );
   }

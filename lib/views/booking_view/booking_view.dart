@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
@@ -46,11 +47,11 @@ class BookingView extends StatelessWidget {
     );
   }
 
-  String formatDate(DateTime dt) {
+  String _formatDate(DateTime dt) {
     return DateFormat('E dd MMMM yyyy').format(dt);
   }
 
-  String formatTime(DateTime dt) {
+  String _formatTime(DateTime dt) {
     return DateFormat('HH:mm').format(dt);
   }
 
@@ -59,7 +60,7 @@ class BookingView extends StatelessWidget {
       CupertinoPageRoute(
         builder: (context) {
           return TableView(
-            tableCubit: BlocProvider.of<TableCubit>(context),
+            cubit: BlocProvider.of<TableCubit>(context),
             dateTime: cubit.state.dateTime.toUtc().toIso8601String(),
           );
         },
@@ -93,7 +94,8 @@ class BookingView extends StatelessWidget {
                   const SizedBox(height: 12),
                   BookingDateTimeRow(
                     title: 'Date',
-                    body: formatDate(state.dateTime),
+                    body: _formatDate(state.dateTime),
+                    icon: FontAwesomeIcons.calendarDays,
                     onTap: () {
                       _showDialog(
                         context: context,
@@ -103,7 +105,8 @@ class BookingView extends StatelessWidget {
                   ),
                   BookingDateTimeRow(
                     title: 'Time:',
-                    body: formatTime(state.dateTime),
+                    body: _formatTime(state.dateTime),
+                    icon: FontAwesomeIcons.solidClock,
                     onTap: () {
                       _showDialog(
                         context: context,
@@ -114,6 +117,10 @@ class BookingView extends StatelessWidget {
                   const SizedBox(height: 16),
                   Center(
                     child: CupertinoButton(
+                      color: CupertinoColors.activeBlue,
+                      onPressed: () {
+                        _navigateToTableView(context);
+                      },
                       child: Text(
                         'Reserve table',
                         style: CupertinoTheme.of(context)
@@ -125,10 +132,6 @@ class BookingView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      color: CupertinoColors.activeBlue,
-                      onPressed: () {
-                        _navigateToTableView(context);
-                      },
                     ),
                   ),
                 ],
