@@ -7,7 +7,7 @@ part of 'table_model.dart';
 // **************************************************************************
 
 TableModel _$TableModelFromJson(Map<String, dynamic> json) => TableModel(
-      id: json['id'] as String?,
+      id: (json['id'] as num?)?.toInt(),
       chairs: (json['chairs'] as num?)?.toInt(),
       reservations: (json['reservations'] as List<dynamic>?)
           ?.map((e) => Reservation.fromJson(e as Map<String, dynamic>))

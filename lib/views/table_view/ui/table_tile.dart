@@ -39,7 +39,7 @@ class TableTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 TableTileRow(
                   label: 'Chairs',
-                  data: '${table.chairs}',
+                  data: table.chairs,
                 ),
                 const SizedBox(height: 4),
                 TableAvailabilityChip(status: status),

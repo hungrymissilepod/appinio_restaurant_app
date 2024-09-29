@@ -50,8 +50,8 @@ class _TableViewState extends State<TableView> {
                 if (controller.text.isEmpty) {
                   return;
                 }
-                await widget.cubit.bookTable(
-                    table.id ?? '', widget.dateTime, controller.text);
+                await widget.cubit
+                    .bookTable(table.id, widget.dateTime, controller.text);
                 controller.clear();
                 if (context.mounted) {
                   Navigator.of(context).pop();
@@ -97,7 +97,7 @@ class _TableViewState extends State<TableView> {
                 table: table,
                 status: status,
                 cancelTable: () {
-                  widget.cubit.cancelTable(table.id ?? '', widget.dateTime);
+                  widget.cubit.cancelTable(table.id, widget.dateTime);
                 },
                 reserveTable: () {
                   _showBookingDialog(

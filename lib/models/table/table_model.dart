@@ -14,7 +14,7 @@ class TableModel extends Equatable {
     List<Reservation>? reservations,
   }) : reservations = reservations ?? <Reservation>[];
 
-  final String? id;
+  final int? id;
   final int? chairs;
   final List<Reservation>? reservations;
 
@@ -26,33 +26,3 @@ class TableModel extends Equatable {
   @override
   List<Object?> get props => [id, chairs, reservations];
 }
-
-/*
-
-tables (collection): [
-
-  {
-    id: 0,
-    chairs: 4,
-    reservations: [
-      {
-        time: ....
-        user: jake,
-      },
-      {
-        time: ....2
-        user: fred,
-      }
-    ]
-  },
-  {
-    id: 1,
-    chairs: 6,
-    reservations: []
-  }
-
-]
-
-
-
-*/

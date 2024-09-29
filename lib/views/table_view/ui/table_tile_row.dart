@@ -8,7 +8,7 @@ class TableTileRow extends StatelessWidget {
   });
 
   final String? label;
-  final String? data;
+  final int? data;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class TableTileRow extends StatelessWidget {
               ),
         ),
         const SizedBox(width: 8),
-        Text(data ?? ''),
+        Text('$data'),
       ],
     );
   }

@@ -24,7 +24,7 @@ class TableUpdating extends TableState {
   const TableUpdating(this.id, {required List<TableModel> tables})
       : super(tables);
 
-  final String? id;
+  final int? id;
 
   @override
   List<Object?> get props => [id, tables];

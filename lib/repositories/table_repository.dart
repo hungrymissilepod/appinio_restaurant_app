@@ -32,7 +32,7 @@ class TableRepository implements TableRepositoryProtocol {
   @override
   Future<bool> updateTable(TableModel table) async {
     try {
-      final String? docId = await _getDocumentIdForTable(table.id ?? '');
+      final String? docId = await _getDocumentIdForTable(table.id);
       await db.collection(_tableCollection).doc(docId).set(table.toJson());
     } catch (e) {
       print('failed to reserve table: $e');
@@ -40,7 +40,7 @@ class TableRepository implements TableRepositoryProtocol {
     return false;
   }
 
-  Future<String?> _getDocumentIdForTable(String id) async {
+  Future<String?> _getDocumentIdForTable(int? id) async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await db.collection(_tableCollection).where('id', isEqualTo: id).get();
 

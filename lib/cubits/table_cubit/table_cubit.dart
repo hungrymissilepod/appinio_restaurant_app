@@ -31,7 +31,7 @@ class TableCubit extends Cubit<TableState> {
     }
   }
 
-  Future<void> updateTable(String id) async {
+  Future<void> updateTable(int? id) async {
     emit(TableUpdating(id, tables: _tables));
     try {
       _tables = await _repo.fetch();
@@ -41,7 +41,7 @@ class TableCubit extends Cubit<TableState> {
     }
   }
 
-  Future<void> bookTable(String id, String dt, String user) async {
+  Future<void> bookTable(int? id, String dt, String user) async {
     int index = _tables.indexWhere((TableModel table) => table.id == id);
     if (index != -1) {
       if (_tables[index]
@@ -53,10 +53,10 @@ class TableCubit extends Cubit<TableState> {
     }
 
     await _repo.updateTable(_tables[index]);
-    await updateTable(_tables[index].id ?? '');
+    await updateTable(_tables[index].id);
   }
 
-  Future<void> cancelTable(String id, String dt) async {
+  Future<void> cancelTable(int? id, String dt) async {
     int index = _tables.indexWhere((TableModel table) => table.id == id);
     if (index != -1) {
       _tables[index]
@@ -65,7 +65,7 @@ class TableCubit extends Cubit<TableState> {
     }
 
     await _repo.updateTable(_tables[index]);
-    await updateTable(_tables[index].id ?? '');
+    await updateTable(_tables[index].id);
   }
 
   TableStatus tableStatus(TableModel table, String dt) {
