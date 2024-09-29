@@ -19,6 +19,7 @@ class TableView extends StatefulWidget {
 }
 
 class _TableViewState extends State<TableView> {
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -105,10 +106,44 @@ class _TableViewState extends State<TableView> {
                                     widget.tableCubit.cancelTable(
                                         table.id ?? '', widget.dateTime);
                                   } else if (status == TableStatus.available) {
-                                    widget.tableCubit.bookTable(
-                                        state.tables[index].id ?? '',
-                                        widget.dateTime,
-                                        'Jake');
+                                    showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return CupertinoAlertDialog(
+                                          title: Text('Enter name for booking'),
+                                          content: CupertinoTextField(
+                                              controller: controller),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                              child: Text('Cancel'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            CupertinoDialogAction(
+                                              child: Text('Book'),
+                                              onPressed: () async {
+                                                if (controller.text.isEmpty) {
+                                                  return;
+                                                }
+                                                await widget.tableCubit
+                                                    .bookTable(
+                                                        state.tables[index]
+                                                                .id ??
+                                                            '',
+                                                        widget.dateTime,
+                                                        controller.text);
+                                                controller.clear();
+                                                if (mounted) {
+                                                  Navigator.of(context).pop();
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    return;
                                   }
                                 },
                           child: Text(status == TableStatus.reservedByMe

@@ -6,6 +6,8 @@ import 'package:restaurant_booking_app/repositories/table_repository.dart';
 
 part 'table_state.dart';
 
+const kCurrentUsername = 'Jake';
+
 enum TableStatus { available, reservedByMe, reservedByOther }
 
 class TableCubit extends Cubit<TableState> {
@@ -56,14 +58,14 @@ class TableCubit extends Cubit<TableState> {
   }
 
   TableStatus tableStatus(TableModel table, String dt) {
-    if (table.reservations
-            ?.any((Reservation r) => r.dateTime == dt && r.name == 'Jake') ==
+    if (table.reservations?.any((Reservation r) =>
+            r.dateTime == dt && r.name == kCurrentUsername) ==
         true) {
       return TableStatus.reservedByMe;
     }
 
-    if (table.reservations
-            ?.any((Reservation r) => r.dateTime == dt && r.name != 'Jake') ==
+    if (table.reservations?.any((Reservation r) =>
+            r.dateTime == dt && r.name != kCurrentUsername) ==
         true) {
       return TableStatus.reservedByOther;
     }
