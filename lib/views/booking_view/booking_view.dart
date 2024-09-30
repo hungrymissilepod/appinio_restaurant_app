@@ -42,7 +42,6 @@ class _BookingViewState extends State<BookingView> {
       CupertinoPageRoute(
         builder: (context) {
           return TableView(
-            cubit: BlocProvider.of<TableCubit>(context),
             dateTime: state.dateTime.toIso8601String(),
           );
         },

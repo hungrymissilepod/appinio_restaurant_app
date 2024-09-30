@@ -2,11 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_booking_app/views/booking_view/booking_view.dart';
-import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
 import 'package:restaurant_booking_app/firebase_options.dart';
 import 'package:restaurant_booking_app/views/menu_view/menu_view.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_booking_app/repositories/table_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,23 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<TableCubit>(
-            create: (BuildContext context) => TableCubit(TableRepository())),
-      ],
-      child: const CupertinoApp(
-        theme: CupertinoThemeData(
-          textTheme: CupertinoTextThemeData(
-            textStyle: TextStyle(
-              fontSize: 16,
-              color: CupertinoColors.black,
-            ),
+    return const CupertinoApp(
+      theme: CupertinoThemeData(
+        textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(
+            fontSize: 16,
+            color: CupertinoColors.black,
           ),
         ),
-        title: 'Flutter Demo',
-        home: MyHomePage(),
       ),
+      title: 'Flutter Demo',
+      home: MyHomePage(),
     );
   }
 }
