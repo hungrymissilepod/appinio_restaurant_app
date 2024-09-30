@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
+import 'package:restaurant_booking_app/repositories/food_repository.dart';
 import 'package:restaurant_booking_app/views/common/common_error_state.dart';
 import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
 import 'package:restaurant_booking_app/views/menu_view/ui/menu_view_loaded_state.dart';
@@ -14,8 +15,9 @@ class MenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
-      return CupertinoPageScaffold(
+    return BlocProvider<FoodCubit>(
+      create: (context) => FoodCubit(FoodRepository())..fetch(),
+      child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.white,
         navigationBar: const CupertinoNavigationBar(
           middle: Text('Menu'),
@@ -59,7 +61,7 @@ class MenuView extends StatelessWidget {
             ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

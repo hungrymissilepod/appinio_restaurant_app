@@ -87,10 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (index) {
           case 0:
             return CupertinoTabView(
-              builder: (context) => BlocProvider<FoodCubit>(
-                create: (context) => FoodCubit(FoodRepository())..fetch(),
-                child: MenuView(),
-              ),
+              builder: (context) => MenuView(),
             );
           case 1:
             return CupertinoTabView(
