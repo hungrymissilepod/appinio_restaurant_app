@@ -26,8 +26,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<FoodCubit>(
-            create: (BuildContext context) => FoodCubit(FoodRepository())),
         BlocProvider<TableCubit>(
             create: (BuildContext context) => TableCubit(TableRepository())),
       ],
@@ -89,8 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (index) {
           case 0:
             return CupertinoTabView(
-              builder: (context) => MenuView(
-                cubit: BlocProvider.of<FoodCubit>(context),
+              builder: (context) => BlocProvider<FoodCubit>(
+                create: (context) => FoodCubit(FoodRepository())..fetch(),
+                child: MenuView(),
               ),
             );
           case 1:
