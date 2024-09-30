@@ -38,7 +38,10 @@ class BookingView extends StatelessWidget {
               use24hFormat: true,
               showDayOfWeek: true,
               onDateTimeChanged: (DateTime value) {
-                cubit.setDateTime(value);
+                if (value.isAfter(cubit.state.minDate) &&
+                    value.isBefore(cubit.state.maxDate)) {
+                  cubit.setDateTime(value);
+                }
               },
             ),
           ),
