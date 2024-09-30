@@ -8,18 +8,15 @@ import 'package:restaurant_booking_app/views/booking_view/ui/booking_date_time_r
 import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 
 class BookingView extends StatelessWidget {
-  const BookingView({
-    super.key,
-    required this.cubit,
-  });
-
-  final BookingCubit cubit;
+  const BookingView({super.key});
 
   void _showDialog(
-      {required BuildContext context, required CupertinoDatePickerMode mode}) {
+      {required BuildContext context,
+      required BookingState state,
+      required CupertinoDatePickerMode mode}) {
     showCupertinoModalPopup(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return Container(
           height: 300,
           padding: const EdgeInsets.only(top: 6.0),
@@ -31,16 +28,16 @@ class BookingView extends StatelessWidget {
             top: false,
             child: CupertinoDatePicker(
               minuteInterval: 60,
-              minimumDate: cubit.state.minDate,
-              maximumDate: cubit.state.maxDate,
-              initialDateTime: cubit.state.dateTime,
+              minimumDate: state.minDate,
+              maximumDate: state.maxDate,
+              initialDateTime: state.dateTime,
               mode: mode,
               use24hFormat: true,
               showDayOfWeek: true,
               onDateTimeChanged: (DateTime value) {
-                if (value.isAfter(cubit.state.minDate) &&
-                    value.isBefore(cubit.state.maxDate)) {
-                  cubit.setDateTime(value);
+                if (value.isAfter(state.minDate) &&
+                    value.isBefore(state.maxDate)) {
+                  context.read<BookingCubit>().setDateTime(value);
                 }
               },
             ),
@@ -58,13 +55,13 @@ class BookingView extends StatelessWidget {
     return DateFormat('HH:mm').format(dt);
   }
 
-  void _navigateToTableView(BuildContext context) {
+  void _navigateToTableView(BuildContext context, BookingState state) {
     Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) {
           return TableView(
             cubit: BlocProvider.of<TableCubit>(context),
-            dateTime: cubit.state.dateTime.toUtc().toIso8601String(),
+            dateTime: state.dateTime.toIso8601String(),
           );
         },
       ),
@@ -102,6 +99,7 @@ class BookingView extends StatelessWidget {
                     onTap: () {
                       _showDialog(
                         context: context,
+                        state: state,
                         mode: CupertinoDatePickerMode.date,
                       );
                     },
@@ -113,6 +111,7 @@ class BookingView extends StatelessWidget {
                     onTap: () {
                       _showDialog(
                         context: context,
+                        state: state,
                         mode: CupertinoDatePickerMode.time,
                       );
                     },
@@ -122,7 +121,7 @@ class BookingView extends StatelessWidget {
                     child: CupertinoButton(
                       color: CupertinoColors.activeBlue,
                       onPressed: () {
-                        _navigateToTableView(context);
+                        _navigateToTableView(context, state);
                       },
                       child: Text(
                         'Reserve table',
