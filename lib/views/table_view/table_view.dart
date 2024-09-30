@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
@@ -34,7 +33,7 @@ class TableView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: CupertinoTextField(
               controller: controller,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: CupertinoColors.white,
               ),
             ),
