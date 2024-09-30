@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
@@ -11,9 +12,11 @@ import 'package:restaurant_booking_app/views/table_view/ui/table_tile.dart';
 class TableView extends StatelessWidget {
   TableView({
     super.key,
+    required this.repository,
     required this.dateTime,
   });
 
+  final TableRepository repository;
   final String dateTime;
 
   final TextEditingController controller = TextEditingController();
@@ -29,7 +32,12 @@ class TableView extends StatelessWidget {
           title: const Text('Enter name for booking'),
           content: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
-            child: CupertinoTextField(controller: controller),
+            child: CupertinoTextField(
+              controller: controller,
+              decoration: BoxDecoration(
+                color: CupertinoColors.white,
+              ),
+            ),
           ),
           actions: [
             CupertinoDialogAction(
@@ -62,7 +70,7 @@ class TableView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TableCubit(TableRepository())..fetch(),
+      create: (context) => TableCubit(repository)..fetch(),
       child: BlocBuilder<TableCubit, TableState>(builder: (context, state) {
         return CupertinoPageScaffold(
           backgroundColor: CupertinoColors.white,

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:restaurant_booking_app/repositories/food_repository.dart';
 import 'package:restaurant_booking_app/views/booking_view/booking_view.dart';
 import 'package:restaurant_booking_app/firebase_options.dart';
 import 'package:restaurant_booking_app/views/menu_view/menu_view.dart';
@@ -62,7 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (index) {
           case 0:
             return CupertinoTabView(
-              builder: (context) => MenuView(),
+              builder: (context) => MenuView(
+                repository: FoodRepository(),
+              ),
             );
           case 1:
             return CupertinoTabView(

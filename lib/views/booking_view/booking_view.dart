@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
+import 'package:restaurant_booking_app/repositories/table_repository.dart';
 import 'package:restaurant_booking_app/views/booking_view/ui/booking_date_time_row.dart';
 import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 
@@ -41,6 +42,7 @@ class _BookingViewState extends State<BookingView> {
       CupertinoPageRoute(
         builder: (context) {
           return TableView(
+            repository: TableRepository(),
             dateTime: state.dateTime.toIso8601String(),
           );
         },

@@ -9,14 +9,17 @@ import 'package:restaurant_booking_app/views/menu_view/ui/menu_view_loaded_state
 class MenuView extends StatelessWidget {
   MenuView({
     super.key,
+    required this.repository,
   });
+
+  final FoodRepository repository;
 
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FoodCubit>(
-      create: (context) => FoodCubit(FoodRepository())..fetch(),
+      create: (context) => FoodCubit(repository)..fetch(),
       child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.white,
         navigationBar: const CupertinoNavigationBar(
@@ -26,45 +29,46 @@ class MenuView extends StatelessWidget {
             style: TextStyle(color: CupertinoColors.black),
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: CupertinoSearchTextField(
-                  controller: controller,
-                  onChanged: (String? value) {
-                    if (value != null) {
-                      context.read<FoodCubit>().search(value);
-                    }
-                  },
+        child: BlocBuilder<FoodCubit, FoodState>(builder: (context, state) {
+          return SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: CupertinoSearchTextField(
+                    controller: controller,
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        context.read<FoodCubit>().search(value);
+                      }
+                    },
+                  ),
                 ),
-              ),
-              Expanded(
-                child: BlocBuilder<FoodCubit, FoodState>(
-                    builder: (context, state) {
-                  if (state is FoodLoading) {
-                    return const CommonLoadingState(
-                      label: 'Loading menu...',
-                    );
-                  }
-                  if (state is FoodError) {
-                    return CommonErrorState(
-                      label: 'Failed to load menu',
-                      onTap: () {
-                        context.read<FoodCubit>().fetch();
-                      },
-                    );
-                  }
-                  if (state is FoodLoaded) {
-                    return MenuViewLoadedState(items: state.items);
-                  }
-                  return const SizedBox();
-                }),
-              ),
-            ],
-          ),
-        ),
+                Expanded(
+                  child: Builder(builder: (context) {
+                    if (state is FoodLoading) {
+                      return const CommonLoadingState(
+                        label: 'Loading menu...',
+                      );
+                    }
+                    if (state is FoodError) {
+                      return CommonErrorState(
+                        label: 'Failed to load menu',
+                        onTap: () {
+                          context.read<FoodCubit>().fetch();
+                        },
+                      );
+                    }
+                    if (state is FoodLoaded) {
+                      return MenuViewLoadedState(items: state.items);
+                    }
+                    return const SizedBox();
+                  }),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
