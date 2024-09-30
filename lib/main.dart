@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return CupertinoTabScaffold(
       backgroundColor: CupertinoColors.white,
       tabBar: CupertinoTabBar(
+        backgroundColor: CupertinoColors.white,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.burger),

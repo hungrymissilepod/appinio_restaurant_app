@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
-import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
 import 'package:restaurant_booking_app/views/booking_view/ui/booking_date_time_row.dart';
 import 'package:restaurant_booking_app/views/table_view/table_view.dart';
 
@@ -99,7 +98,11 @@ class _BookingViewState extends State<BookingView> {
           return CupertinoPageScaffold(
             backgroundColor: CupertinoColors.white,
             navigationBar: const CupertinoNavigationBar(
-              middle: Text('Reservations'),
+              backgroundColor: CupertinoColors.white,
+              middle: Text(
+                'Reservations',
+                style: TextStyle(color: CupertinoColors.black),
+              ),
             ),
             child: SafeArea(
               child: Center(

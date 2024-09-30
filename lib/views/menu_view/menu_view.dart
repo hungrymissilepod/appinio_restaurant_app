@@ -20,7 +20,11 @@ class MenuView extends StatelessWidget {
       child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.white,
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Menu'),
+          backgroundColor: CupertinoColors.white,
+          middle: Text(
+            'Menu',
+            style: TextStyle(color: CupertinoColors.black),
+          ),
         ),
         child: SafeArea(
           child: Column(

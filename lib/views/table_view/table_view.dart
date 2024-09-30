@@ -67,7 +67,11 @@ class TableView extends StatelessWidget {
         return CupertinoPageScaffold(
           backgroundColor: CupertinoColors.white,
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Pick Table'),
+            backgroundColor: CupertinoColors.white,
+            middle: Text(
+              'Pick Table',
+              style: TextStyle(color: CupertinoColors.black),
+            ),
           ),
           child: SafeArea(
             child:

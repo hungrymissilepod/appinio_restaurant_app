@@ -17,7 +17,11 @@ class FoodItemDetailView extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.white,
       navigationBar: CupertinoNavigationBar(
-        middle: Text('${item.name}'),
+        backgroundColor: CupertinoColors.white,
+        middle: Text(
+          '${item.name}',
+          style: const TextStyle(color: CupertinoColors.black),
+        ),
       ),
       child: SafeArea(
         child: SingleChildScrollView(
