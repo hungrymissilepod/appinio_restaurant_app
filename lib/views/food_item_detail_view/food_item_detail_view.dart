@@ -75,7 +75,6 @@ class FoodItemDetailView extends StatelessWidget {
                   ],
                 ),
               ),
-              // TODO: display more info here and fake variations and modiifers and buttons
             ],
           ),
         ),

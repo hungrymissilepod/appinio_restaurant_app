@@ -2,13 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_booking_app/views/booking_view/booking_view.dart';
-import 'package:restaurant_booking_app/cubits/booking_cubit/booking_cubit.dart';
-import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
 import 'package:restaurant_booking_app/cubits/table_cubit/table_cubit.dart';
 import 'package:restaurant_booking_app/firebase_options.dart';
 import 'package:restaurant_booking_app/views/menu_view/menu_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_booking_app/repositories/food_repository.dart';
 import 'package:restaurant_booking_app/repositories/table_repository.dart';
 
 void main() async {
@@ -53,20 +50,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  /// Current time
-  final DateTime date = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0);
-
-  /// Minimum booking time (cannot book in the past)
-  final DateTime minDate = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(const Duration(hours: -1));
-
-  /// Maximum booking time (one week in future)
-  final DateTime maxDate = DateTime.now()
-      .copyWith(minute: 0, second: 0, microsecond: 0, millisecond: 0)
-      .add(const Duration(days: 7));
-
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
@@ -91,14 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           case 1:
             return CupertinoTabView(
-              builder: (context) => BlocProvider<BookingCubit>(
-                create: (BuildContext context) => BookingCubit(
-                  datetime: date,
-                  minDate: minDate,
-                  maxDate: maxDate,
-                ),
-                child: const BookingView(),
-              ),
+              builder: (context) => const BookingView(),
             );
           default:
             return const SizedBox();
