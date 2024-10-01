@@ -26,7 +26,7 @@ void main() {
     );
 
     blocTest<FoodCubit, FoodState>(
-      'fetch() emits erorr state when FoodRepository throws an error',
+      'fetch() emits error state when FoodRepository throws an error',
       build: () {
         when(() => mockFoodRepository.fetch())
             .thenAnswer((_) => Future<List<FoodItem>?>.value(null));
