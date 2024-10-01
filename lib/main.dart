@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      title: 'Flutter Demo',
+      title: 'Ding!',
       home: MyHomePage(),
     );
   }
