@@ -8,7 +8,7 @@ import 'package:restaurant_booking_app/views/common/common_error_state.dart';
 import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
 import 'package:restaurant_booking_app/views/table_view/ui/table_tile.dart';
 
-class TableView extends StatelessWidget {
+class TableView extends StatefulWidget {
   TableView({
     super.key,
     required this.repository,
@@ -18,7 +18,18 @@ class TableView extends StatelessWidget {
   final TableRepository repository;
   final String dateTime;
 
+  @override
+  State<TableView> createState() => _TableViewState();
+}
+
+class _TableViewState extends State<TableView> {
   final TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   void _showBookingDialog({
     required BuildContext context,
@@ -53,7 +64,7 @@ class TableView extends StatelessWidget {
                 }
                 await context
                     .read<TableCubit>()
-                    .bookTable(table.id, dateTime, controller.text);
+                    .bookTable(table.id, widget.dateTime, controller.text);
                 controller.clear();
                 if (ctx.mounted) {
                   Navigator.of(ctx).pop();
@@ -69,7 +80,7 @@ class TableView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TableCubit(repository)..fetch(),
+      create: (context) => TableCubit(widget.repository)..fetch(),
       child: BlocBuilder<TableCubit, TableState>(builder: (context, state) {
         return CupertinoPageScaffold(
           backgroundColor: CupertinoColors.white,
@@ -103,15 +114,16 @@ class TableView extends StatelessWidget {
                 itemCount: state.tables.length,
                 itemBuilder: (context, index) {
                   final TableModel table = state.tables[index];
-                  TableStatus status =
-                      context.read<TableCubit>().tableStatus(table, dateTime);
+                  TableStatus status = context
+                      .read<TableCubit>()
+                      .tableStatus(table, widget.dateTime);
                   return TableTile(
                     table: table,
                     status: status,
                     cancelTable: () {
                       context
                           .read<TableCubit>()
-                          .cancelTable(table.id, dateTime);
+                          .cancelTable(table.id, widget.dateTime);
                     },
                     reserveTable: () {
                       _showBookingDialog(

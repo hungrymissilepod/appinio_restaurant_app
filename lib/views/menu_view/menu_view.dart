@@ -6,20 +6,31 @@ import 'package:restaurant_booking_app/views/common/common_error_state.dart';
 import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
 import 'package:restaurant_booking_app/views/menu_view/ui/menu_view_loaded_state.dart';
 
-class MenuView extends StatelessWidget {
-  MenuView({
+class MenuView extends StatefulWidget {
+  const MenuView({
     super.key,
     required this.repository,
   });
 
   final FoodRepository repository;
 
+  @override
+  State<MenuView> createState() => _MenuViewState();
+}
+
+class _MenuViewState extends State<MenuView> {
   final TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FoodCubit>(
-      create: (context) => FoodCubit(repository)..fetch(),
+      create: (context) => FoodCubit(widget.repository)..fetch(),
       child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.white,
         navigationBar: const CupertinoNavigationBar(
