@@ -23,32 +23,25 @@ class TableCubit extends Cubit<TableState> {
 
   List<TableModel> _tables = [];
 
-  Future<void> fetch() async {
+  Future<void> fetch({bool emitLoading = true}) async {
     logger.i('TableCubit - fetch');
-    emit(TableLoading());
-
-    List<TableModel>? tables = await _repo.fetch();
-    if (tables == null) {
-      emit(TableError('Failed to fetch tables'));
-      return;
+    if (emitLoading) {
+      emit(TableLoading());
     }
 
-    _tables = tables;
-    emit(TableLoaded(tables: _tables));
+    try {
+      List<TableModel> tables = await _repo.fetch();
+      _tables = tables;
+      emit(TableLoaded(tables: _tables));
+    } catch (_) {
+      emit(TableError('Failed to fetch tables'));
+    }
   }
 
   Future<void> updateTable(int? id) async {
     logger.i('TableCubit - updateTable: $id');
     emit(TableUpdating(id, tables: _tables));
-
-    List<TableModel>? tables = await _repo.fetch();
-    if (tables == null) {
-      emit(TableError('Failed to update table: $id'));
-      return;
-    }
-
-    _tables = tables;
-    emit(TableLoaded(tables: _tables));
+    await fetch(emitLoading: false);
   }
 
   Future<void> bookTable(int? id, String dt, String name) async {
@@ -63,7 +56,13 @@ class TableCubit extends Cubit<TableState> {
       }
     }
 
-    await _repo.updateTable(_tables[index]);
+    try {
+      await _repo.updateTable(_tables[index]);
+    } catch (_) {
+      emit(TableError('Failed to update table'));
+      return;
+    }
+
     await updateTable(_tables[index].id);
   }
 

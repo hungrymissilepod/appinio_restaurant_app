@@ -22,7 +22,7 @@ class FoodCubit extends Cubit<FoodState> {
       List<FoodItem> items = await _repo.fetch();
       _items = items;
       emit(FoodLoaded(_items));
-    } catch (e) {
+    } catch (_) {
       emit(const FoodError('Failed to load items'));
     }
   }

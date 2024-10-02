@@ -6,6 +6,8 @@ import 'package:restaurant_booking_app/models/reservation/reservation.dart';
 import 'package:restaurant_booking_app/models/table/table_model.dart';
 import 'package:restaurant_booking_app/repositories/table_repository.dart';
 
+import '../stubs/table_stubs.dart';
+
 class MockTableRepository extends Mock implements TableRepository {}
 
 void main() {
@@ -20,7 +22,7 @@ void main() {
       'fetch() a list of TableModel',
       build: () {
         when(() => mockTableRepository.fetch())
-            .thenAnswer((_) => Future<List<TableModel>?>.value([]));
+            .thenAnswer((_) => Future<List<TableModel>>.value(tableStubs));
         return TableCubit(mockTableRepository);
       },
       act: (bloc) => bloc.fetch(),
@@ -34,7 +36,7 @@ void main() {
       'fetch() emits error state when TableRepository throws an error',
       build: () {
         when(() => mockTableRepository.fetch())
-            .thenAnswer((_) => Future<List<TableModel>?>.value(null));
+            .thenThrow((_) => Exception('Failed to fetch tables'));
         return TableCubit(mockTableRepository);
       },
       act: (bloc) => bloc.fetch(),
@@ -48,9 +50,9 @@ void main() {
       'bookTable() states',
       build: () {
         when(() => mockTableRepository.fetch())
-            .thenAnswer((_) => Future<List<TableModel>?>.value([]));
+            .thenAnswer((_) => Future<List<TableModel>>.value(tableStubs));
         when(() => mockTableRepository.updateTable(any()))
-            .thenAnswer((_) => Future<bool>.value(true));
+            .thenAnswer((_) => Future<void>.value());
         return TableCubit(mockTableRepository);
       },
       act: (bloc) => bloc.updateTable(0),
@@ -64,9 +66,9 @@ void main() {
       'bookTable() states when TableRepository fetch() returns null',
       build: () {
         when(() => mockTableRepository.fetch())
-            .thenAnswer((_) => Future<List<TableModel>?>.value(null));
+            .thenThrow((_) => Exception('Failed to fetch tables'));
         when(() => mockTableRepository.updateTable(any()))
-            .thenAnswer((_) => Future<bool>.value(true));
+            .thenAnswer((_) => Future<void>.value());
         return TableCubit(mockTableRepository);
       },
       act: (bloc) => bloc.updateTable(0),

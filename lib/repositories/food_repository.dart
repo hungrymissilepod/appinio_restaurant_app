@@ -27,7 +27,6 @@ class FoodRepository implements FoodRepositoryProtocol {
       }
       return items;
     } catch (e) {
-      logger.e('FoodRepository - failed to fetch food: $e');
       throw Exception('FoodRepository - failed to fetch food: $e');
     }
   }
