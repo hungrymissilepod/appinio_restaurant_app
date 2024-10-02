@@ -5,6 +5,8 @@ import 'package:restaurant_booking_app/cubits/food_cubit/food_cubit.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 import 'package:restaurant_booking_app/repositories/food_repository.dart';
 
+import '../stubs/food_item_stubs.dart';
+
 class MockFoodRepository extends Mock implements FoodRepository {}
 
 void main() {
@@ -15,7 +17,7 @@ void main() {
       'fetch() a list of FoodItem',
       build: () {
         when(() => mockFoodRepository.fetch())
-            .thenAnswer((_) => Future<List<FoodItem>?>.value([]));
+            .thenAnswer((_) => Future<List<FoodItem>>.value(foodStubs));
         return FoodCubit(mockFoodRepository);
       },
       act: (bloc) => bloc.fetch(),
@@ -29,7 +31,7 @@ void main() {
       'fetch() emits error state when FoodRepository throws an error',
       build: () {
         when(() => mockFoodRepository.fetch())
-            .thenAnswer((_) => Future<List<FoodItem>?>.value(null));
+            .thenThrow((_) => Exception('Failed to fetch items'));
         return FoodCubit(mockFoodRepository);
       },
       act: (bloc) => bloc.fetch(),
@@ -43,7 +45,7 @@ void main() {
       'search() a list of FoodItem',
       build: () {
         when(() => mockFoodRepository.fetch())
-            .thenAnswer((_) => Future<List<FoodItem>?>.value([]));
+            .thenAnswer((_) => Future<List<FoodItem>>.value(foodStubs));
         return FoodCubit(mockFoodRepository);
       },
       act: (bloc) => bloc.search('Pizza'),

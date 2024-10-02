@@ -9,7 +9,7 @@ import 'package:restaurant_booking_app/views/common/common_loading_state.dart';
 import 'package:restaurant_booking_app/views/table_view/ui/table_tile.dart';
 
 class TableView extends StatefulWidget {
-  TableView({
+  const TableView({
     super.key,
     required this.repository,
     required this.dateTime,

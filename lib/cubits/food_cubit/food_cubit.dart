@@ -18,14 +18,13 @@ class FoodCubit extends Cubit<FoodState> {
   Future<void> fetch() async {
     logger.i('FoodCubit - fetch');
     emit(const FoodLoading());
-    List<FoodItem>? items = await _repo.fetch();
-    if (items == null) {
+    try {
+      List<FoodItem> items = await _repo.fetch();
+      _items = items;
+      emit(FoodLoaded(_items));
+    } catch (e) {
       emit(const FoodError('Failed to load items'));
-      return;
     }
-
-    _items = items;
-    emit(FoodLoaded(_items));
   }
 
   void search(String value) {

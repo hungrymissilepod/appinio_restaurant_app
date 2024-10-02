@@ -3,7 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:restaurant_booking_app/models/food_item/food_item.dart';
 
 abstract class FoodRepositoryProtocol {
-  Future<List<FoodItem>?> fetch();
+  Future<List<FoodItem>> fetch();
 }
 
 class FoodRepository implements FoodRepositoryProtocol {
@@ -14,7 +14,7 @@ class FoodRepository implements FoodRepositoryProtocol {
   final String _foodCollection = 'food';
 
   @override
-  Future<List<FoodItem>?> fetch() async {
+  Future<List<FoodItem>> fetch() async {
     logger.i('FoodRepository - fetch');
     List<FoodItem> items = [];
     try {
@@ -28,7 +28,7 @@ class FoodRepository implements FoodRepositoryProtocol {
       return items;
     } catch (e) {
       logger.e('FoodRepository - failed to fetch food: $e');
+      throw Exception('FoodRepository - failed to fetch food: $e');
     }
-    return null;
   }
 }
