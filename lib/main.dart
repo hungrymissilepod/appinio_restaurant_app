@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_booking_app/repositories/food_repository.dart';
 import 'package:restaurant_booking_app/views/booking_view/booking_view.dart';
 import 'package:restaurant_booking_app/firebase_options.dart';
+import 'package:restaurant_booking_app/views/common/common_error_state.dart';
 import 'package:restaurant_booking_app/views/menu_view/menu_view.dart';
 
 void main() async {
@@ -72,7 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context) => const BookingView(),
             );
           default:
-            return const SizedBox();
+            return const CommonErrorState(
+              label: 'You shouldn\'t be here!',
+            );
         }
       },
     );

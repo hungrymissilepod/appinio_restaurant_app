@@ -62,7 +62,12 @@ class MenuView extends StatelessWidget {
                     if (state is FoodLoaded) {
                       return MenuViewLoadedState(items: state.items);
                     }
-                    return const SizedBox();
+                    return CommonErrorState(
+                      label: 'Failed to load menu',
+                      onTap: () {
+                        context.read<FoodCubit>().fetch();
+                      },
+                    );
                   }),
                 ),
               ],
